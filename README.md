@@ -1,43 +1,57 @@
 # Beyond3D 3.0 — SHREE
 
-A scroll-driven 3D portfolio. The whole alphabet floats in gold 3D type; as you scroll, S, H, R, E and E are picked out and fly together into **SHREE** while the other letters drift away. Below the intro sit the projects, about and contact sections.
+A scroll-driven portfolio built around a 3D typographic story. Gold letters drift across the opening scene, then the letters in **SHREE** gather into a word as you scroll. Project work, an about section, and contact details follow.
 
-<!-- Add a GIF or screenshot here: ![Preview](docs/preview.gif) -->
+## Features
 
-## Highlights
+- **Interactive 3D typography:** Glyphs are built from Space Grotesk font outlines and rendered as beveled, metallic geometry.
+- **Responsive alphabet field:** The complete alphabet, including the extra E in SHREE, is placed in a seeded layout that adapts to wide and tall screens.
+- **Scroll-driven motion:** Lenis and GSAP ScrollTrigger synchronize the 3D introduction and pinned project carousel with page scrolling.
+- **3D project carousel:** Project cards move through a cover-flow layout, with animated titles and visual effects.
+- **Optimized rendering:** The 3D experience loads separately from the page content and stops rendering after the introduction leaves view.
+- **Accessible fallback:** Visitors who prefer reduced motion or whose browser does not support WebGL get a static presentation and a regular project grid.
+- **No downloaded HDR environment:** Studio lighting is created in the scene.
 
-- **Real 3D type.** The letters are extruded from the Space Grotesk font outlines (opentype.js → three.js `ExtrudeGeometry`) with bevels and a physical gold material.
-- **Alphabet field.** All 26 letters (plus the repeated E) are laid out on a seeded, jittered grid that keeps clear of the nav and hero copy on any screen shape.
-- **3D work carousel.** The Work section pins while you scroll and turns a cover-flow of gold-framed 3D cards, one project per step. Project titles scramble in with an RGB-split glitch, colour channels split as the carousel moves, and a light film grain sits over the whole page.
-- **Scroll storytelling.** Lenis smooth scroll drives GSAP ScrollTrigger, which feeds one progress value into a small stage timeline (`src/experience/timeline.ts`).
-- **Post-processing.** Bloom, ACES tone mapping and a vignette, plus a studio environment built from Lightformers, with no HDR download.
-- **Fast first paint.** three.js and the font parser load as separate chunks, and the scene stops rendering once the intro scrolls away.
-- **Accessible fallback.** With `prefers-reduced-motion` or no WebGL, the site shows a static layout with real HTML text throughout.
+## Built with
 
-## Tech
+React 19 · TypeScript · Vite · three.js · React Three Fiber · drei · `@react-three/postprocessing` · GSAP · Lenis · Zustand
 
-React 19 · TypeScript · Vite · three.js · React Three Fiber · drei · @react-three/postprocessing · GSAP · Lenis · Zustand
+## Getting started
 
-## Make it yours
-
-All visitor-facing text lives in [`src/content.ts`](src/content.ts): name, role, email, links, skills, story copy and projects. Lines marked `REPLACE` are placeholders. Put your resume at `public/resume.pdf` and project screenshots in `public/` (set `image: '/your-shot.jpg'` on a project).
-
-## Run it
+Install dependencies and start the development server:
 
 ```bash
 npm install
 npm run dev
 ```
 
-`npm run build` type-checks and builds to `dist/`. `npm run lint` runs oxlint.
+The site runs in a modern browser. WebGL is used for the immersive experience; reduced-motion preferences and browsers without WebGL use the static fallback instead.
 
-## Structure
+## Available scripts
 
+```bash
+npm run dev      # Start the Vite development server
+npm run build    # Type-check and create a production build in dist/
+npm run preview  # Preview the production build locally
+npm run lint     # Run oxlint
 ```
+
+## Personalizing the portfolio
+
+Update the profile, skills, toolkit, story, about copy, and project data in [`src/content.ts`](src/content.ts). Replace values marked `REPLACE`, including the example name, location, email, social links, and project details.
+
+- Add a resume at `public/resume.pdf` and update the `resume` value if needed.
+- Put project images in `public/` and set each project's `image` to a root-relative path, such as `/project-shot.jpg`.
+- Update the page title and metadata in [`index.html`](index.html) when changing the portfolio identity.
+
+## Project structure
+
+```text
 src/
-  content.ts            all copy and project data
-  components/           HTML layer: Nav, Story, Work, About, Contact, Loader, ScrollDirector
-  experience/           3D layer: Scene, ShreeWord (alphabet + word), Halo, Carousel, Studio, timeline
-  lib/                  font/glyph loading, pointer tracking, feature detection
-  store/useAppStore.ts  shared state between scroll and scene
+  content.ts          Profile, portfolio copy, skills, and project data
+  components/         Page sections, navigation, scroll behavior, and fallback UI
+  experience/         Three.js scene, typography, lighting, carousel, and timeline
+  lib/                Asset loading, geometry, feature detection, and shared utilities
+  store/              Shared scroll and experience state
+public/               Static assets, icons, and fonts
 ```
