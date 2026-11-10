@@ -1,6 +1,7 @@
 import { useLenis } from 'lenis/react'
 import { useLayoutEffect } from 'react'
 import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
+import { prefersReducedMotion } from '../lib/support'
 import { useAppStore } from '../store/useAppStore'
 
 export function ScrollDirector() {
@@ -45,6 +46,10 @@ export function ScrollDirector() {
         onLeaveBack: () => setIntroVisible(true),
       })
 
+      if (prefersReducedMotion()) {
+        return
+      }
+
       gsap.utils.toArray<HTMLElement>('.story-section').forEach((section, index) => {
         ScrollTrigger.create({
           trigger: section,
@@ -62,17 +67,37 @@ export function ScrollDirector() {
         scrollTrigger: { trigger: '.content', start: 'top 85%', end: 'top 25%', scrub: true },
       })
 
-      if (!immersive) {
-        return
-      }
-
       gsap.from(['.nav', '.hero-line'], {
         opacity: 0,
-        y: 28,
+        y: 32,
         duration: 0.9,
         ease: 'power3.out',
         stagger: 0.08,
+        clearProps: 'transform',
       })
+
+      gsap.set('.reveal', { opacity: 0 })
+      ScrollTrigger.batch('.reveal', {
+        start: 'top 88%',
+        once: true,
+        onEnter: (elements) =>
+          gsap.fromTo(
+            elements,
+            { opacity: 0, y: 32 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.9,
+              ease: 'power3.out',
+              stagger: 0.1,
+              clearProps: 'transform',
+            },
+          ),
+      })
+
+      if (!immersive) {
+        return
+      }
 
       // Story copy sticks below the word (see .story-copy in CSS). It fades in as its
       // section arrives and out before the section end pushes it up into the word.
@@ -100,18 +125,6 @@ export function ScrollDirector() {
             })
           },
         })
-      })
-
-      gsap.set('.reveal', { opacity: 0 })
-      ScrollTrigger.batch('.reveal', {
-        start: 'top 88%',
-        once: true,
-        onEnter: (elements) =>
-          gsap.fromTo(
-            elements,
-            { opacity: 0, y: 40 },
-            { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1 },
-          ),
       })
     },
     { dependencies: [isReady, immersive] },
