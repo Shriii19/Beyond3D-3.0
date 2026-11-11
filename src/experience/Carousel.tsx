@@ -114,14 +114,16 @@ function Cards() {
 
 // Splits the colour channels while the carousel moves, then settles back to clean.
 function Glitch({ effect }: { effect: RefObject<ChromaticAberrationEffect | null> }) {
-  useFrame(({ clock }) => {
+  const amount = useRef(0)
+
+  useFrame(({ clock }, delta) => {
     const pass = effect.current
     if (!pass) {
       return
     }
-    const flicker = Math.random() < 0.02 ? 0.0025 : 0
-    const amount = Math.min(0.006, motion.velocity * 0.004) + flicker
-    pass.offset.set(amount * Math.cos(clock.elapsedTime * 7), amount * 0.6)
+    const target = Math.min(0.004, motion.velocity * 0.0025)
+    amount.current = MathUtils.damp(amount.current, target, 8, delta)
+    pass.offset.set(amount.current * Math.cos(clock.elapsedTime * 4), amount.current * 0.6)
   })
   return null
 }
