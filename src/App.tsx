@@ -30,11 +30,7 @@ function SmoothScroll({ enabled, children }: { enabled: boolean; children: React
 }
 
 export default function App() {
-  const isReady = useAppStore((state) => state.isReady)
   const immersive = useAppStore((state) => state.immersive)
-  const introVisible = useAppStore((state) => state.introVisible)
-  const chapter = useAppStore((state) => state.chapter)
-  const scrollProgress = useAppStore((state) => state.scrollProgress)
 
   return (
     <SmoothScroll enabled={immersive}>
@@ -54,16 +50,29 @@ export default function App() {
       </div>
       <ScrollDirector />
       <Loader />
-      {isReady && introVisible ? (
-        <div className="hud" aria-hidden="true">
-          <span>
-            {String(chapter + 1).padStart(2, '0')} · {chapterName(chapter)}
-          </span>
-          <span className="hud-bar">
-            <span style={{ transform: `scaleX(${scrollProgress})` }} />
-          </span>
-        </div>
-      ) : null}
+      <ScrollHud />
     </SmoothScroll>
+  )
+}
+
+function ScrollHud() {
+  const isReady = useAppStore((state) => state.isReady)
+  const introVisible = useAppStore((state) => state.introVisible)
+  const chapter = useAppStore((state) => state.chapter)
+  const scrollProgress = useAppStore((state) => state.scrollProgress)
+
+  if (!isReady || !introVisible) {
+    return null
+  }
+
+  return (
+    <div className="hud" aria-hidden="true">
+      <span>
+        {String(chapter + 1).padStart(2, '0')} · {chapterName(chapter)}
+      </span>
+      <span className="hud-bar">
+        <span style={{ transform: `scaleX(${scrollProgress})` }} />
+      </span>
+    </div>
   )
 }
