@@ -8,6 +8,7 @@ export function Loader() {
   const progress = useAppStore((state) => state.progress)
   const isReady = useAppStore((state) => state.isReady)
   const immersive = useAppStore((state) => state.immersive)
+  const setImmersive = useAppStore((state) => state.setImmersive)
   const setProgress = useAppStore((state) => state.setProgress)
   const setReady = useAppStore((state) => state.setReady)
 
@@ -23,9 +24,8 @@ export function Loader() {
     const tween = gsap.to(proxy, { value: 90, duration: 0.9, ease: 'power2.out', onUpdate: update })
     const assets = immersive ? loadAssets() : document.fonts.ready
 
-    Promise.all([assets, tween.then()])
-      .catch(() => undefined)
-      .then(() => {
+    Promise.all([assets, tween.then()]).then(
+      () => {
         if (cancelled) {
           return
         }
@@ -42,13 +42,22 @@ export function Loader() {
             })
           },
         })
-      })
+      },
+      (error: unknown) => {
+        if (cancelled) {
+          return
+        }
+        console.error('Unable to load the 3D experience; using the static layout instead.', error)
+        tween.kill()
+        setImmersive(false)
+      },
+    )
 
     return () => {
       cancelled = true
       tween.kill()
     }
-  }, [immersive, isReady, setProgress, setReady])
+  }, [immersive, isReady, setImmersive, setProgress, setReady])
 
   if (isReady) {
     return null

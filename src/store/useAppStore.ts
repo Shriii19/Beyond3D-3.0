@@ -13,6 +13,7 @@ type AppState = {
   workProgress: number
   workActive: number
   workVisible: boolean
+  setImmersive: (immersive: boolean) => void
   setProgress: (progress: number) => void
   setReady: (isReady: boolean) => void
   setScrollProgress: (scrollProgress: number) => void
@@ -33,6 +34,7 @@ export const useAppStore = create<AppState>((set) => ({
   workProgress: 0,
   workActive: 0,
   workVisible: false,
+  setImmersive: (immersive) => set({ immersive }),
   setProgress: (progress) => set({ progress }),
   setReady: (isReady) => set({ isReady }),
   setScrollProgress: (scrollProgress) => set({ scrollProgress }),
