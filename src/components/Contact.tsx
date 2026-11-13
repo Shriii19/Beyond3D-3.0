@@ -1,16 +1,25 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { profile } from '../content'
 
 const YEAR = new Date().getFullYear()
 
 export function Contact() {
   const [copied, setCopied] = useState(false)
+  const copiedTimeout = useRef<number | undefined>(undefined)
+
+  useEffect(
+    () => () => {
+      window.clearTimeout(copiedTimeout.current)
+    },
+    [],
+  )
 
   const copyEmail = async () => {
     try {
       await navigator.clipboard.writeText(profile.email)
       setCopied(true)
-      window.setTimeout(() => setCopied(false), 1800)
+      window.clearTimeout(copiedTimeout.current)
+      copiedTimeout.current = window.setTimeout(() => setCopied(false), 1800)
     } catch {
       window.location.href = `mailto:${profile.email}`
     }
