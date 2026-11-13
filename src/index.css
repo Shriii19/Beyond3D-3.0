@@ -1048,8 +1048,19 @@ body::after {
     font-size: 14px;
   }
 
-  .nav-links > a:not(.button) {
-    display: none;
+  .nav {
+    gap: 8px;
+  }
+
+  .nav-links {
+    gap: clamp(6px, 2vw, 10px);
+    font-size: 11px;
+  }
+
+  .nav-links .button--small {
+    min-height: 32px;
+    padding-inline: 8px;
+    font-size: 11px;
   }
 
   .story-copy {
