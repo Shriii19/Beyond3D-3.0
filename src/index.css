@@ -1040,6 +1040,9 @@ body::after {
     left: 16px;
     bottom: 16px;
     width: auto;
+    max-height: calc(100dvh - 180px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
     padding: 20px;
     transform: none;
   }
