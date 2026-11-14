@@ -681,6 +681,42 @@ a {
   transition: transform 0.6s var(--ease);
 }
 
+.work-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.work-controls button {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(255, 207, 122, 0.22);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  font: 400 17px/1 var(--display);
+  cursor: pointer;
+  transition:
+    border-color 0.25s,
+    background 0.25s,
+    color 0.25s,
+    transform 0.25s var(--ease);
+}
+
+.work-controls button:hover:not(:disabled) {
+  border-color: var(--gold);
+  background: rgba(245, 165, 36, 0.12);
+  color: var(--gold-soft);
+  transform: translateY(-2px);
+}
+
+.work-controls button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
 .work-detail-body {
   animation: detail-in 0.6s var(--ease) both;
 }
