@@ -109,6 +109,24 @@ export function WorkCarousel() {
             <span className="work-bar">
               <span style={{ transform: `scaleX(${(active + 1) / projects.length})` }} />
             </span>
+            <nav className="work-controls" aria-label="Project navigation">
+              <button
+                type="button"
+                aria-label="Previous project"
+                disabled={active === 0}
+                onClick={() => goTo(active - 1)}
+              >
+                ←
+              </button>
+              <button
+                type="button"
+                aria-label="Next project"
+                disabled={active === projects.length - 1}
+                onClick={() => goTo(active + 1)}
+              >
+                →
+              </button>
+            </nav>
           </div>
           <div className="work-detail-body" key={active}>
             <p className="project-meta">
