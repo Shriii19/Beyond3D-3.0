@@ -82,7 +82,7 @@ function Cards() {
       // cover-flow arc: neighbours swing back and turn toward the centre
       card.position.set(
         offset * CARD_W * scale * 0.82,
-        Math.sin(time * 0.8 + index) * 0.03,
+        Math.sin(offset * 0.38) * 0.14 + Math.sin(time * 0.8 + index) * 0.02,
         -distance * 1.3 * scale,
       )
       card.rotation.set(0, -offset * 0.5, offset * 0.04)
