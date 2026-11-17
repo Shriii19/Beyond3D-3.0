@@ -22,7 +22,7 @@ function SmoothScroll({ enabled, children }: { enabled: boolean; children: React
   return (
     <ReactLenis
       root
-      options={{ lerp: 0.14, smoothWheel: true, wheelMultiplier: 1.1, autoRaf: true, anchors: true }}
+      options={{ lerp: 0.08, smoothWheel: true, wheelMultiplier: 1.1, autoRaf: true, anchors: true }}
     >
       {children}
     </ReactLenis>
