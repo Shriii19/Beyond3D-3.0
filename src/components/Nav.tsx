@@ -1,15 +1,17 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { profile } from '../content'
 
 export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const toggleRef = useRef<HTMLButtonElement>(null)
 
   return (
     <header
       className="nav"
       onKeyDown={(event) => {
-        if (event.key === 'Escape') {
+        if (event.key === 'Escape' && menuOpen) {
           setMenuOpen(false)
+          toggleRef.current?.focus()
         }
       }}
     >
@@ -18,6 +20,7 @@ export function Nav() {
         {profile.brand}
       </a>
       <button
+        ref={toggleRef}
         className={`nav-toggle${menuOpen ? ' is-open' : ''}`}
         type="button"
         aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
