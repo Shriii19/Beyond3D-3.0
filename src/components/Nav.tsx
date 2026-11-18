@@ -6,15 +6,14 @@ export function Nav() {
   const toggleRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
-    const desktop = window.matchMedia('(min-width: 641px)')
     const closeMenu = () => {
-      if (desktop.matches) {
+      if (window.innerWidth > 640) {
         setMenuOpen(false)
       }
     }
 
-    desktop.addEventListener('change', closeMenu)
-    return () => desktop.removeEventListener('change', closeMenu)
+    window.addEventListener('resize', closeMenu)
+    return () => window.removeEventListener('resize', closeMenu)
   }, [])
 
   return (
