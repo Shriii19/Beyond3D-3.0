@@ -64,7 +64,15 @@ export function Loader() {
   }
 
   return (
-    <div className="loader" ref={rootRef} role="status" aria-label="Loading">
+    <div
+      className="loader"
+      ref={rootRef}
+      role="progressbar"
+      aria-label="Loading portfolio"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={progress}
+    >
       <span className="loader-mark">SHREE</span>
       <span className="loader-count">{String(progress).padStart(3, '0')}</span>
     </div>
