@@ -1,9 +1,21 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { profile } from '../content'
 
 export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false)
   const toggleRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    const desktop = window.matchMedia('(min-width: 641px)')
+    const closeMenu = () => {
+      if (desktop.matches) {
+        setMenuOpen(false)
+      }
+    }
+
+    desktop.addEventListener('change', closeMenu)
+    return () => desktop.removeEventListener('change', closeMenu)
+  }, [])
 
   return (
     <header
