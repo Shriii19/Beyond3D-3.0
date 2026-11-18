@@ -2,7 +2,7 @@ import { profile, skills, story } from '../content'
 
 export function Story() {
   return (
-    <main className="story" id="top">
+    <div className="story" id="top">
       <section className="story-section story-section--hero" data-chapter="hello">
         <div className="hero-copy">
           <p className="story-kicker hero-line">
@@ -56,6 +56,6 @@ export function Story() {
           <p className="story-text">{story.complete.text}</p>
         </div>
       </section>
-    </main>
+    </div>
   )
 }

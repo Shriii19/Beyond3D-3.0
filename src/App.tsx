@@ -42,12 +42,14 @@ export default function App() {
           <StaticStage />
         )}</div>
       <Nav />
-      <Story />
-      <div className="content">
-        <Work />
-        <About />
-        <Contact />
-      </div>
+      <main>
+        <Story />
+        <div className="content">
+          <Work />
+          <About />
+          <Contact />
+        </div>
+      </main>
       <ScrollDirector />
       <Loader />
       <ScrollHud />
