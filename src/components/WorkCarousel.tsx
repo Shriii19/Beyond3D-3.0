@@ -138,6 +138,7 @@ export function WorkCarousel() {
             <p className="project-summary">{project.summary}</p>
             <p className="project-impact">
               <span>Result</span>
+              {' '}
               {project.impact}
             </p>
             <ul className="chips chips--small" aria-label="Built with">
