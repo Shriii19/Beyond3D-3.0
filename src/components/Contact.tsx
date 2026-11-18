@@ -4,7 +4,7 @@ import { profile } from '../content'
 const YEAR = new Date().getFullYear()
 
 export function Contact() {
-  const [copied, setCopied] = useState(false)
+  const [copyState, setCopyState] = useState<'idle' | 'copied' | 'failed'>('idle')
   const copiedTimeout = useRef<number | undefined>(undefined)
 
   useEffect(
@@ -15,14 +15,15 @@ export function Contact() {
   )
 
   const copyEmail = async () => {
+    window.clearTimeout(copiedTimeout.current)
     try {
       await navigator.clipboard.writeText(profile.email)
-      setCopied(true)
-      window.clearTimeout(copiedTimeout.current)
-      copiedTimeout.current = window.setTimeout(() => setCopied(false), 1800)
-    } catch {
-      window.location.href = `mailto:${profile.email}`
+      setCopyState('copied')
+    } catch (error) {
+      console.error('Unable to copy the email address.', error)
+      setCopyState('failed')
     }
+    copiedTimeout.current = window.setTimeout(() => setCopyState('idle'), 1800)
   }
 
   return (
@@ -36,8 +37,15 @@ export function Contact() {
           {profile.email}
         </a>
         <button className="button" type="button" onClick={copyEmail}>
-          {copied ? 'Copied ✓' : 'Copy email'}
+          {copyState === 'copied' ? 'Copied ✓' : copyState === 'failed' ? 'Copy failed' : 'Copy email'}
         </button>
+        {copyState !== 'idle' ? (
+          <span className="copy-feedback" role="status">
+            {copyState === 'copied'
+              ? 'Email copied to clipboard.'
+              : 'Could not copy. Copy it from the email link.'}
+          </span>
+        ) : null}
       </div>
       <ul className="socials reveal">
         {profile.socials.map((social) => (
